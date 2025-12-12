@@ -8,13 +8,15 @@
   ],
   "license": "ISC",
   "author": "kamal khatri",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.11",
-    "prettier": "^3.7.4"
+"scripts": {
+  "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+},
+
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongoose": "^9.0.1"
   }
 }
