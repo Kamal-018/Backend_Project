@@ -64,7 +64,7 @@ const addVideoToPlaylist = asyncHandler(async(req,res)=> {
 
     return res 
     .status(200) 
-    .json(200, playlist, "video added in the playlist")
+    .json(new Apiresponse(200, updatedPlaylist, "video added in the playlist"))
 
 })
 
@@ -82,15 +82,15 @@ const removeVideoFromPlaylist = asyncHandler(async(req,res)=> {
         throw new apierror(400, "playlist not found")
     }
 
-    if (playlist.owner.toString() !== req.user._id) {
+    if (playlist.owner.toString() !== req.user._id.toString()) {
         throw new apierror (403, "you dont have permission to edit this playlist")
     }
 
-    const updatedPlaylist = await Playlist.findByIdAndDelete(
+    const updatedPlaylist = await Playlist.findByIdAndUpdate(
         playlistId,
         {
             $pull:{
-                videos:video_id
+                videos:videoId
             }
         },
         {new:true}//updated document returned
@@ -101,7 +101,7 @@ const removeVideoFromPlaylist = asyncHandler(async(req,res)=> {
 
     return res
     .status(200)
-    .json(200, updatedPlaylist,"video deletd form the playlist succesfully")
+    .json(new Apiresponse(200, updatedPlaylist,"video deletd form the playlist succesfully"))
 })
 
 const updatePlaylist = asyncHandler(async(req,res)=> {
@@ -119,7 +119,7 @@ const updatePlaylist = asyncHandler(async(req,res)=> {
         throw new apierror(400, "playlist not found")
     }
 
-    if (playlist.owner.toString() !== req.user._id) {
+    if (playlist.owner.toString() !== req.user?._id.toString()) {
         throw new apierror (403, "you dont have permission to edit this playlist")
     }
 
@@ -143,7 +143,7 @@ const updatePlaylist = asyncHandler(async(req,res)=> {
 
     return res
     .status(200)
-    .json(200, updatePlaylist, "playlist updation successful")
+    .json(new Apiresponse(200, updatedPlaylist, "playlist updation successful"))
 
 })
 
@@ -168,7 +168,7 @@ const deletePlaylist = asyncHandler(async(req,res)=> {
 
     return res 
     .status(200)
-    .json(200, deletedPlaylist, "playlist deleted succesfully")
+    .json(new Apiresponse(200, deletedPlaylist, "playlist deleted succesfully"))
 
 })
 

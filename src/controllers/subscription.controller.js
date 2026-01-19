@@ -1,5 +1,5 @@
-import mongoose, {isValidObjectId} from "mongoose";
-import {Subscription } from "../models/subscription.model.js"
+import mongoose, { isValidObjectId } from "mongoose";
+import { Subscription } from "../models/subscription.model.js"
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Apiresponse } from "../utils/apiresponse.js"
 import { apierror } from "../utils/apierror.js"
@@ -8,9 +8,9 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js"
 //get user channel subscriber
 
 const getUserChannelSubscribers = asyncHandler(async (req, res) => {
-    const {channelId} = req.params
+    const { channelId } = req.params
 
-    if(!isValidObjectId(channelId)){
+    if (!isValidObjectId(channelId)) {
         throw new apierror(400, "Channel id doesnt exist")
     }
 
@@ -39,17 +39,17 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
             }
         },
         {
-            $addFields:{
+            $addFields: {
                 subscriber: {
                     $first: "$user"
-                } 
+                }
             }
         },
     ])
 
     return res
-    .status(200)
-    .json(new ApiResponse(200, subscriberList || {}, "Channel Subscribers fetched successfully"))
+        .status(200)
+        .json(new Apiresponse(200, subscriberList || {}, "Channel Subscribers fetched successfully"))
 
 })
 
@@ -59,7 +59,7 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
 const getSubscribedChannels = asyncHandler(async (req, res) => {
     const { subscriberId } = req.params
 
-    if(!isValidObjectId(subscriberId)){
+    if (!isValidObjectId(subscriberId)) {
         throw new apierror(400, "SubscriberId not valid")
     }
 
@@ -77,7 +77,7 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
                 as: "channel",
                 pipeline: [
                     {
-                        $project:{
+                        $project: {
                             _id: 1,
                             username: 1,
                             fullname: 1,
@@ -93,51 +93,51 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
                     $first: "$channel"
                 }
             },
-            
+
         },
     ])
 
 
     return res
-    .status(200)
-    .json(new Apiresponse(200, subscribedChannelList || {}, "Subscribed channel fetched successfully"))
+        .status(200)
+        .json(new Apiresponse(200, subscribedChannelList || {}, "Subscribed channel fetched successfully"))
 })
 
 //toggle feature for subscribed user
 
-const toggleSubscription = asyncHandler(async(req,res)=> {
-   
-   const { channelId } = req.params
+const toggleSubscription = asyncHandler(async (req, res) => {
 
-   if(!isValidObjectId(channelId)) {
-    throw new apierror(400, "invalid channel id")
-   }
+    const { channelId } = req.params
 
-   const isSubscribed = await Subscription.findOne({
+    if (!isValidObjectId(channelId)) {
+        throw new apierror(400, "invalid channel id")
+    }
 
-    channel:channelId,
-    subscriber: req.user?._id
- })
+    const isSubscribed = await Subscription.findOne({
 
- if (isSubscribed) {
-    await Subscription.findByIdAndDelete(isSubscribed._id)
+        channel: channelId,
+        subscriber: req.user?._id
+    })
+
+    if (isSubscribed) {
+        await Subscription.findByIdAndDelete(isSubscribed._id)
+
+        return res
+            .status(200)
+            .json(new Apiresponse(200, { subscribed: false }, "unsubscribed"))
+    }
+
+    await Subscription.create({
+
+        channel: channelId,
+        subscriber: req.user?._id
+    })
 
     return res
-    .status(200)
-    .json(200, {subscribed:false}, "unsubscribed")
- }
-
- await Subscription.create({
-
-    channel: channelId,
-    subscriber:user?._id
- })
-
- return res
- .status(200)
- .json(new ApiResponse(200, { subscribed: true }, "Subscribed"))
+        .status(200)
+        .json(new Apiresponse(200, { subscribed: true }, "Subscribed"))
 })
 
 
 
-export{ getUserChannelSubscribers, getSubscribedChannels , toggleSubscription}
+export { getUserChannelSubscribers, getSubscribedChannels, toggleSubscription }
