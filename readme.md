@@ -1,34 +1,39 @@
-# Video Management Engine
-A production-ready, scalable backend architecture built with the Node.js ecosystem. 
-This project demonstrates industry-standard practices for API design, security, and media management.
+# Video Backend Engine
 
-Key Features:
+A production-ready, scalable backend architecture built with the Node.js ecosystem. This project demonstrates industry-standard practices for API design, security, and media management.
 
-Secure Authentication: Comprehensive user flow using JWT (JSON Web Tokens), access/refresh tokens, and Bcrypt for password encryption.
+---
 
-Media Management: Seamless image and video uploads integrated with Cloudinary via Multer middleware.
+## Tech Stack
 
-Database : Complex data modeling and high-performance queries using MongoDB and Mongoose Aggregation Pipelines.
+| Category | Tools |
+| :--- | :--- |
+| Runtime & Framework | Node.js, Express.js |
+| Database | MongoDB, Mongoose |
+| Authentication | JWT, Bcrypt.js, Cookie-parser |
+| File Handling | Multer, Cloudinary SDK |
+| Environment | Dotenv, Git |
 
-Security: Implementation of CORS, secure HTTP-only cookies, and centralized error handling.
+---
 
-Clean Architecture: Follows the MVC (Model-View-Controller) pattern for maximum maintainability and scalability.
+## Key Features
 
-Runtime & Framework - Node.js, Express.js
-Database - MongoDB, Mongoose
-Authentication	- JWT, Bcrypt.js, Cookie-parser
-File Handling	- Multer, Cloudinary SDK
-Environment	- Dotenv, Git
+* **Secure Authentication:** Comprehensive user flow using JWT (Access/Refresh tokens) and Bcrypt for password encryption.
+* **Media Management:** Seamless image and video uploads integrated with Cloudinary via Multer middleware.
+* **Advanced Database Logic:** Complex data modeling and high-performance queries using Mongoose Aggregation Pipelines.
+* **Security Best Practices:** Implementation of CORS, secure HTTP-only cookies, and centralized error handling classes.
+* **Clean Architecture:** Follows the MVC (Model-View-Controller) pattern for maximum maintainability and scalability.
 
+---
 
+## Project Structure
+
+```text
 src/
-├── controllers/    # Request handling & business logic
+├── db/             # Database connection logic
 ├── models/         # Mongoose schemas & data validation
+├── controllers/    # Request handling & business logic
 ├── routes/         # API endpoint definitions
 ├── middlewares/    # Auth, Multer, and Error handling
-├── db/             # Database connection logic
 ├── utils/          # API errors, responses, and Cloudinary config
 └── app.js          # Express app configuration
-
-
-
