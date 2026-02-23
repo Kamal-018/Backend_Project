@@ -1,7 +1,7 @@
 # Video Backend Engine
 
 A production-ready, scalable backend architecture built with the Node.js ecosystem. This project demonstrates industry-standard practices for API design, security, and media management.\
-[Project Link]( https;//khatrikamal.netlify.app)
+[Project Link]( https://khatrikamal.netlify.app)
 
 ---
 
